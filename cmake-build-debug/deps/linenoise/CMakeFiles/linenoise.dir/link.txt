@@ -1,0 +1,2 @@
+D:/cygwin64/bin/ar.exe qc liblinenoise.a  CMakeFiles/linenoise.dir/linenoise.c.o
+D:/cygwin64/bin/ranlib.exe liblinenoise.a

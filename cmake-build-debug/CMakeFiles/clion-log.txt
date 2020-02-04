@@ -1,0 +1,4 @@
+C:\Users\Shinly\.CLion2019.1\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=D:/cygwin64/bin/make.exe -DCMAKE_C_COMPILER=D:/cygwin64/bin/gcc.exe -DCMAKE_CXX_COMPILER=D:/cygwin64/bin/g++.exe -G "CodeBlocks - Unix Makefiles" /cygdrive/d/BaTuRu/study/redis
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /cygdrive/d/BaTuRu/study/redis/cmake-build-debug
