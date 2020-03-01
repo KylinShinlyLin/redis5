@@ -67,11 +67,13 @@ int setTypeAdd(robj *subject, sds value) {
                 /* Convert to regular set when the intset contains
                  * too many entries. */
                 if (intsetLen(subject->ptr) > server.set_max_intset_entries)
+                    //编码转换
                     setTypeConvert(subject,OBJ_ENCODING_HT);
                 return 1;
             }
         } else {
             /* Failed to get integer from object, convert to regular set. */
+            //编码转换
             setTypeConvert(subject,OBJ_ENCODING_HT);
 
             /* The set *was* an intset and this value is not integer

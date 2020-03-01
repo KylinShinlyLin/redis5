@@ -349,23 +349,24 @@ void freeStreamObject(robj *o) {
 void incrRefCount(robj *o) {
     if (o->refcount != OBJ_SHARED_REFCOUNT) o->refcount++;
 }
-
+//减少refcount
 void decrRefCount(robj *o) {
+    //判断是否释放共享对象
     if (o->refcount == 1) {
         switch(o->type) {
-        case OBJ_STRING: freeStringObject(o); break;
-        case OBJ_LIST: freeListObject(o); break;
-        case OBJ_SET: freeSetObject(o); break;
-        case OBJ_ZSET: freeZsetObject(o); break;
-        case OBJ_HASH: freeHashObject(o); break;
-        case OBJ_MODULE: freeModuleObject(o); break;
+        case OBJ_STRING: freeStringObject(o); break; //释放字符
+        case OBJ_LIST: freeListObject(o); break; //释放链表
+        case OBJ_SET: freeSetObject(o); break;//释放集合
+        case OBJ_ZSET: freeZsetObject(o); break; //释放有序集合
+        case OBJ_HASH: freeHashObject(o); break; //释放hash表
+       case OBJ_MODULE: freeModuleObject(o); break;
         case OBJ_STREAM: freeStreamObject(o); break;
         default: serverPanic("Unknown object type"); break;
         }
-        zfree(o);
+        zfree(o); //回收空间
     } else {
         if (o->refcount <= 0) serverPanic("decrRefCount against refcount <= 0");
-        if (o->refcount != OBJ_SHARED_REFCOUNT) o->refcount--;
+        if (o->refcount != OBJ_SHARED_REFCOUNT) o->refcount--; //计数器自减
     }
 }
 

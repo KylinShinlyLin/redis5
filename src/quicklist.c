@@ -95,11 +95,11 @@ quicklist *quicklistCreate(void) {
     struct quicklist *quicklist;
 
     quicklist = zmalloc(sizeof(*quicklist));
-    quicklist->head = quicklist->tail = NULL;
-    quicklist->len = 0;
-    quicklist->count = 0;
-    quicklist->compress = 0;
-    quicklist->fill = -2;
+    quicklist->head = quicklist->tail = NULL;//初始化 head 和 tail
+    quicklist->len = 0;// 初始化 len
+    quicklist->count = 0;// 初始化 count
+    quicklist->compress = 0;// 初始化，默认: 不压缩
+    quicklist->fill = -2;  //默认大小限制 8kb
     return quicklist;
 }
 
@@ -479,16 +479,17 @@ REDIS_STATIC int _quicklistNodeAllowMerge(const quicklistNode *a,
  * Returns 1 if new head created. */
 int quicklistPushHead(quicklist *quicklist, void *value, size_t sz) {
     quicklistNode *orig_head = quicklist->head;
-    if (likely(
+    if (likely(//当前quicklistNode可以插入
             _quicklistNodeAllowInsert(quicklist->head, quicklist->fill, sz))) {
         quicklist->head->zl =
-            ziplistPush(quicklist->head->zl, value, sz, ZIPLIST_HEAD);
+            ziplistPush(quicklist->head->zl, value, sz, ZIPLIST_HEAD);//插入到ziplist
         quicklistNodeUpdateSz(quicklist->head);
-    } else {
+    } else {//当前quicklistNode不能插入
         quicklistNode *node = quicklistCreateNode();
-        node->zl = ziplistPush(ziplistNew(), value, sz, ZIPLIST_HEAD);
-
+        node->zl = ziplistPush(ziplistNew(), value, sz, ZIPLIST_HEAD);//插入到ziplist
+        //更新ziplist的大小到sz
         quicklistNodeUpdateSz(node);
+        //将新建的quicklistNode插入到quicklist结构体中
         _quicklistInsertNodeBefore(quicklist, quicklist->head, node);
     }
     quicklist->count++;
@@ -979,6 +980,7 @@ int quicklistDelRange(quicklist *quicklist, const long start,
     quicklistNode *node = entry.node;
 
     /* iterate over next nodes until everything is deleted. */
+    //extent是需要删除的元素个数
     while (extent) {
         quicklistNode *next = node->next;
 
@@ -987,11 +989,13 @@ int quicklistDelRange(quicklist *quicklist, const long start,
         if (entry.offset == 0 && extent >= node->count) {
             /* If we are deleting more than the count of this node, we
              * can just delete the entire node without ziplist math. */
+            //情况一、需要删除整个quicklistNode
             delete_entire_node = 1;
             del = node->count;
         } else if (entry.offset >= 0 && extent >= node->count) {
             /* If deleting more nodes after this one, calculate delete based
              * on size of current node. */
+            //情况二、删除本节点剩余所有元素
             del = node->count - entry.offset;
         } else if (entry.offset < 0) {
             /* If offset is negative, we are in the first run of this loop
@@ -999,6 +1003,7 @@ int quicklistDelRange(quicklist *quicklist, const long start,
              * from this start offset to end of list.  Since the Negative
              * offset is the number of elements until the tail of the list,
              * just use it directly as the deletion count. */
+            //entry.offset < 0 代表从后向前，相反数代表这个ziplist后面剩余元素个数。
             del = -entry.offset;
 
             /* If the positive offset is greater than the remaining extent,
@@ -1009,17 +1014,20 @@ int quicklistDelRange(quicklist *quicklist, const long start,
         } else {
             /* else, we are deleting less than the extent of this node, so
              * use extent directly. */
+            //删除本quicklistNode的部分元素
             del = extent;
         }
-
+        //打印日志
         D("[%ld]: asking to del: %ld because offset: %d; (ENTIRE NODE: %d), "
           "node count: %u",
           extent, del, entry.offset, delete_entire_node, node->count);
 
+        //如果需要整个quicklistNode删除，则直接删除，否则按照情况来删除
         if (delete_entire_node) {
             __quicklistDelNode(quicklist, node);
         } else {
             quicklistDecompressNodeForUse(node);
+            //范围删除 当前offset 开始 到需要删除的位置
             node->zl = ziplistDeleteRange(node->zl, entry.offset, del);
             quicklistNodeUpdateSz(node);
             node->count -= del;
@@ -1029,11 +1037,9 @@ int quicklistDelRange(quicklist *quicklist, const long start,
                 quicklistRecompressOnly(quicklist, node);
         }
 
-        extent -= del;
-
-        node = next;
-
-        entry.offset = 0;
+        extent -= del; //剩余待删除元素个数
+        node = next;  //下个quicklistNode
+        entry.offset = 0; //从下个quicklistNode起始位置开始删
     }
     return 1;
 }
@@ -1232,11 +1238,12 @@ int quicklistIndex(const quicklist *quicklist, const long long idx,
     quicklistNode *n;
     unsigned long long accum = 0;
     unsigned long long index;
+    //当idx值为负数的时候，代表是从尾部向头部的便宜量，-1代表尾部元素，确定查找方向
     int forward = idx < 0 ? 0 : 1; /* < 0 -> reverse, 0+ -> forward */
-
+    //初始化 quicklistEntry 最终查找到的数据会放入quicklistEntry里面
     initEntry(entry);
     entry->quicklist = quicklist;
-
+    //判断头查找还是尾查找
     if (!forward) {
         index = (-idx) - 1;
         n = quicklist->tail;
@@ -1248,10 +1255,12 @@ int quicklistIndex(const quicklist *quicklist, const long long idx,
     if (index >= quicklist->count)
         return 0;
 
+    //遍历quicklistNode节点，找到index对应的quicklistNode
     while (likely(n)) {
         if ((accum + n->count) > index) {
             break;
         } else {
+            //打印日志
             D("Skipping over (%p) %u at accum %lld", (void *)n, n->count,
               accum);
             accum += n->count;
@@ -1261,10 +1270,10 @@ int quicklistIndex(const quicklist *quicklist, const long long idx,
 
     if (!n)
         return 0;
-
+    //打印日志
     D("Found node: %p at accum %llu, idx %llu, sub+ %llu, sub- %llu", (void *)n,
       accum, index, index - accum, (-index) - 1 + accum);
-
+    //计算index所在的ziplist的偏移量
     entry->node = n;
     if (forward) {
         /* forward = normal head-to-tail offset. */
@@ -1277,6 +1286,7 @@ int quicklistIndex(const quicklist *quicklist, const long long idx,
 
     quicklistDecompressNodeForUse(entry->node);
     entry->zi = ziplistIndex(entry->node->zl, entry->offset);
+    //通过ziplist获取元素存入 quicklistEntry
     ziplistGet(entry->zi, &entry->value, &entry->sz, &entry->longval);
     /* The caller will use our result, so we don't re-compress here.
      * The caller can recompress or delete the node as needed. */

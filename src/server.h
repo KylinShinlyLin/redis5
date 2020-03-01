@@ -580,13 +580,14 @@ typedef struct RedisModuleDigest {
 
 #define OBJ_SHARED_REFCOUNT INT_MAX
 typedef struct redisObject {
-    unsigned type:4;
-    unsigned encoding:4;
+    unsigned type:4;  //对象类型
+    unsigned encoding:4; //编码类型
     unsigned lru:LRU_BITS; /* LRU time (relative to global lru_clock) or
                             * LFU data (least significant 8 bits frequency
                             * and most significant 16 bits access time). */
-    int refcount;
-    void *ptr;
+    //lru 缓存淘汰使用 （16位最后访问时间-时间戳 + 8位-调用次数）
+    int refcount; //当前被引用的计数
+    void *ptr; //指向数据结构的指针
 } robj;
 
 /* The a string name for an object's type as listed above
@@ -618,12 +619,12 @@ typedef struct clientReplyBlock {
  * by integers from 0 (the default database) up to the max configured
  * database. The database number is the 'id' field in the structure. */
 typedef struct redisDb {
-    dict *dict;                 /* The keyspace for this DB */
-    dict *expires;              /* Timeout of keys with a timeout set */
-    dict *blocking_keys;        /* Keys with clients waiting for data (BLPOP)*/
-    dict *ready_keys;           /* Blocked keys that received a PUSH */
-    dict *watched_keys;         /* WATCHED keys for MULTI/EXEC CAS */
-    int id;                     /* Database ID */
+    dict *dict;               //当前数据库所有的键值对字典  /* The keyspace for this DB */
+    dict *expires;            //每个键值对对于的淘汰策略字典 /* Timeout of keys with a timeout set */
+    dict *blocking_keys;      //用于阻塞client场景的key操作 /* Keys with clients waiting for data (BLPOP)*/
+    dict *ready_keys;         //当前正在被阻塞的key  /* Blocked keys that received a PUSH */
+    dict *watched_keys;       //用于事务的，监控key /* WATCHED keys for MULTI/EXEC CAS */
+    int id;                   //当前数据库的ID  /* Database ID */
     long long avg_ttl;          /* Average TTL, just for stats */
     unsigned long expires_cursor; /* Cursor of the active expire cycle. */
     list *defrag_later;         /* List of key names to attempt to defrag one by one, gradually. */
@@ -742,13 +743,13 @@ typedef struct user {
                                       -2, ... and so forth. */
 
 typedef struct client {
-    uint64_t id;            /* Client incremental unique ID. */
-    connection *conn;
-    int resp;               /* RESP protocol version. Can be 2 or 3. */
-    redisDb *db;            /* Pointer to currently SELECTed DB. */
-    robj *name;             /* As set by CLIENT SETNAME. */
-    sds querybuf;           /* Buffer we use to accumulate client queries. */
-    size_t qb_pos;          /* The position we have read in querybuf. */
+    uint64_t id;        //该客户端ID    /* Client incremental unique ID. */
+    connection *conn;  //客户端连接
+    int resp;         //客户端使用的RESP协议版本（为了兼容旧版）      /* RESP protocol version. Can be 2 or 3. */
+    redisDb *db;      //当前选择的DB       /* Pointer to currently SELECTed DB. */
+    robj *name;      //客户端名称       /* As set by CLIENT SETNAME. */
+    sds querybuf;    //用于积累查询的缓冲区       /* Buffer we use to accumulate client queries. */
+    size_t qb_pos;   //当前在查询缓冲区读取到的位置       /* The position we have read in querybuf. */
     sds pending_querybuf;   /* If this client is flagged as master, this buffer
                                represents the yet not applied portion of the
                                replication stream that we are receiving from
@@ -756,15 +757,15 @@ typedef struct client {
     size_t querybuf_peak;   /* Recent (100ms or more) peak of querybuf size. */
     int argc;               /* Num of arguments of current command. */
     robj **argv;            /* Arguments of current command. */
-    struct redisCommand *cmd, *lastcmd;  /* Last command executed. */
+    struct redisCommand *cmd, *lastcmd; //最后一次执行的命令集合 /* Last command executed. */
     user *user;             /* User associated with this connection. If the
                                user is set to NULL the connection can do
                                anything (admin). */
-    int reqtype;            /* Request protocol type: PROTO_REQ_* */
+    int reqtype;    //响应协议类型        /* Request protocol type: PROTO_REQ_* */
     int multibulklen;       /* Number of multi bulk arguments left to read. */
     long bulklen;           /* Length of bulk argument in multi bulk request. */
-    list *reply;            /* List of reply objects to send to the client. */
-    unsigned long long reply_bytes; /* Tot bytes of objects in reply list. */
+    list *reply;  //需要响应对象的链表          /* List of reply objects to send to the client. */
+    unsigned long long reply_bytes; //需要响应对象的总大小 /* Tot bytes of objects in reply list. */
     size_t sentlen;         /* Amount of bytes already sent in the current
                                buffer or object being sent. */
     time_t ctime;           /* Client creation time. */
