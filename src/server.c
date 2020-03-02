@@ -180,148 +180,41 @@ volatile unsigned long lru_clock; /* Server global current LRU time. */
  */
 
 struct redisCommand redisCommandTable[] = {
-    {"module",moduleCommand,-2,
-     "admin no-script",
-     0,NULL,0,0,0,0,0,0},
-
-    {"get",getCommand,2,
-     "read-only fast @string",
-     0,NULL,1,1,1,0,0,0},
-
-    /* Note that we can't flag set as fast, since it may perform an
-     * implicit DEL of a large key. */
-    {"set",setCommand,-3,
-     "write use-memory @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"setnx",setnxCommand,3,
-     "write use-memory fast @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"setex",setexCommand,4,
-     "write use-memory @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"psetex",psetexCommand,4,
-     "write use-memory @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"append",appendCommand,3,
-     "write use-memory fast @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"strlen",strlenCommand,2,
-     "read-only fast @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"del",delCommand,-2,
-     "write @keyspace",
-     0,NULL,1,-1,1,0,0,0},
-
-    {"unlink",unlinkCommand,-2,
-     "write fast @keyspace",
-     0,NULL,1,-1,1,0,0,0},
-
-    {"exists",existsCommand,-2,
-     "read-only fast @keyspace",
-     0,NULL,1,-1,1,0,0,0},
-
-    {"setbit",setbitCommand,4,
-     "write use-memory @bitmap",
-     0,NULL,1,1,1,0,0,0},
-
-    {"getbit",getbitCommand,3,
-     "read-only fast @bitmap",
-     0,NULL,1,1,1,0,0,0},
-
-    {"bitfield",bitfieldCommand,-2,
-     "write use-memory @bitmap",
-     0,NULL,1,1,1,0,0,0},
-
-    {"setrange",setrangeCommand,4,
-     "write use-memory @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"getrange",getrangeCommand,4,
-     "read-only @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"substr",getrangeCommand,4,
-     "read-only @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"incr",incrCommand,2,
-     "write use-memory fast @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"decr",decrCommand,2,
-     "write use-memory fast @string",
-     0,NULL,1,1,1,0,0,0},
-
-    {"mget",mgetCommand,-2,
-     "read-only fast @string",
-     0,NULL,1,-1,1,0,0,0},
-
-    {"rpush",rpushCommand,-3,
-     "write use-memory fast @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"lpush",lpushCommand,-3,
-     "write use-memory fast @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"rpushx",rpushxCommand,-3,
-     "write use-memory fast @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"lpushx",lpushxCommand,-3,
-     "write use-memory fast @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"linsert",linsertCommand,5,
-     "write use-memory @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"rpop",rpopCommand,2,
-     "write fast @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"lpop",lpopCommand,2,
-     "write fast @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"brpop",brpopCommand,-3,
-     "write no-script @list @blocking",
-     0,NULL,1,-2,1,0,0,0},
-
-    {"brpoplpush",brpoplpushCommand,4,
-     "write use-memory no-script @list @blocking",
-     0,NULL,1,2,1,0,0,0},
-
-    {"blpop",blpopCommand,-3,
-     "write no-script @list @blocking",
-     0,NULL,1,-2,1,0,0,0},
-
-    {"llen",llenCommand,2,
-     "read-only fast @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"lindex",lindexCommand,3,
-     "read-only @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"lset",lsetCommand,4,
-     "write use-memory @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"lrange",lrangeCommand,4,
-     "read-only @list",
-     0,NULL,1,1,1,0,0,0},
-
-    {"ltrim",ltrimCommand,4,
-     "write @list",
-     0,NULL,1,1,1,0,0,0},
-
+    {"module",moduleCommand,-2,"admin no-script",0,NULL,0,0,0,0,0,0},
+    {"get",getCommand,2,"read-only fast @string",0,NULL,1,1,1,0,0,0},
+    {"set",setCommand,-3,"write use-memory @string",0,NULL,1,1,1,0,0,0},
+    {"setnx",setnxCommand,3,"write use-memory fast @string",0,NULL,1,1,1,0,0,0},
+    {"setex",setexCommand,4,"write use-memory @string",0,NULL,1,1,1,0,0,0},
+    {"psetex",psetexCommand,4,"write use-memory @string",0,NULL,1,1,1,0,0,0},
+    {"append",appendCommand,3,"write use-memory fast @string",0,NULL,1,1,1,0,0,0},
+    {"strlen",strlenCommand,2,"read-only fast @string",0,NULL,1,1,1,0,0,0},
+    {"del",delCommand,-2,"write @keyspace",0,NULL,1,-1,1,0,0,0},
+    {"unlink",unlinkCommand,-2,"write fast @keyspace",0,NULL,1,-1,1,0,0,0},
+    {"exists",existsCommand,-2,"read-only fast @keyspace",0,NULL,1,-1,1,0,0,0},
+    {"setbit",setbitCommand,4,"write use-memory @bitmap",0,NULL,1,1,1,0,0,0},
+    {"getbit",getbitCommand,3,"read-only fast @bitmap",0,NULL,1,1,1,0,0,0},
+    {"bitfield",bitfieldCommand,-2,"write use-memory @bitmap",0,NULL,1,1,1,0,0,0},
+    {"setrange",setrangeCommand,4,"write use-memory @string",0,NULL,1,1,1,0,0,0},
+    {"getrange",getrangeCommand,4,"read-only @string",0,NULL,1,1,1,0,0,0},
+    {"substr",getrangeCommand,4,"read-only @string",0,NULL,1,1,1,0,0,0},
+    {"incr",incrCommand,2,"write use-memory fast @string",0,NULL,1,1,1,0,0,0},
+    {"decr",decrCommand,2,"write use-memory fast @string",0,NULL,1,1,1,0,0,0},
+    {"mget",mgetCommand,-2,"read-only fast @string",0,NULL,1,-1,1,0,0,0},
+    {"rpush",rpushCommand,-3,"write use-memory fast @list",0,NULL,1,1,1,0,0,0},
+    {"lpush",lpushCommand,-3,"write use-memory fast @list",0,NULL,1,1,1,0,0,0},
+    {"rpushx",rpushxCommand,-3,"write use-memory fast @list",0,NULL,1,1,1,0,0,0},
+    {"lpushx",lpushxCommand,-3,"write use-memory fast @list",0,NULL,1,1,1,0,0,0},
+    {"linsert",linsertCommand,5,"write use-memory @list",0,NULL,1,1,1,0,0,0},
+    {"rpop",rpopCommand,2,"write fast @list",0,NULL,1,1,1,0,0,0},
+    {"lpop",lpopCommand,2,"write fast @list",0,NULL,1,1,1,0,0,0},
+    {"brpop",brpopCommand,-3,"write no-script @list @blocking",0,NULL,1,-2,1,0,0,0},
+    {"brpoplpush",brpoplpushCommand,4,"write use-memory no-script @list @blocking",0,NULL,1,2,1,0,0,0},
+    {"blpop",blpopCommand,-3,"write no-script @list @blocking",0,NULL,1,-2,1,0,0,0},
+    {"llen",llenCommand,2,"read-only fast @list",0,NULL,1,1,1,0,0,0},
+    {"lindex",lindexCommand,3,"read-only @list",0,NULL,1,1,1,0,0,0},
+    {"lset",lsetCommand,4,"write use-memory @list",0,NULL,1,1,1,0,0,0},
+    {"lrange",lrangeCommand,4,"read-only @list",0,NULL,1,1,1,0,0,0},
+    {"ltrim",ltrimCommand,4,"write @list",0,NULL,1,1,1,0,0,0},
     {"lrem",lremCommand,4,
      "write @list",
      0,NULL,1,1,1,0,0,0},
@@ -2949,18 +2842,22 @@ int populateCommandTableParseFlags(struct redisCommand *c, char *strflags) {
  * we have on top of redis.c file. */
 void populateCommandTable(void) {
     int j;
+    //统计需要放入的命令总数
     int numcommands = sizeof(redisCommandTable)/sizeof(struct redisCommand);
 
     for (j = 0; j < numcommands; j++) {
+        //通过偏移获取对应的redisCommand对象位置
         struct redisCommand *c = redisCommandTable+j;
         int retval1, retval2;
 
         /* Translate the command string flags description into an actual
          * set of flags. */
+        //解析 sflags 生成 flags
         if (populateCommandTableParseFlags(c,c->sflags) == C_ERR)
             serverPanic("Unsupported command flag");
-
+        //初始化命令ID，用于ACL
         c->id = ACLGetCommandID(c->name); /* Assign the ID used for ACL. */
+        //添加到字典中
         retval1 = dictAdd(server.commands, sdsnew(c->name), c);
         /* Populate an additional dictionary that will be unaffected
          * by rename-command statements in redis.conf. */

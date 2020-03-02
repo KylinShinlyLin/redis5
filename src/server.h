@@ -750,13 +750,10 @@ typedef struct client {
     robj *name;      //客户端名称       /* As set by CLIENT SETNAME. */
     sds querybuf;    //用于积累查询的缓冲区       /* Buffer we use to accumulate client queries. */
     size_t qb_pos;   //当前在查询缓冲区读取到的位置       /* The position we have read in querybuf. */
-    sds pending_querybuf;   /* If this client is flagged as master, this buffer
-                               represents the yet not applied portion of the
-                               replication stream that we are receiving from
-                               the master. */
+    sds pending_querybuf;    //由于主从复制的缓冲区
     size_t querybuf_peak;   /* Recent (100ms or more) peak of querybuf size. */
-    int argc;               /* Num of arguments of current command. */
-    robj **argv;            /* Arguments of current command. */
+    int argc;             //输入缓冲区的命令请求是按照Redis协议格式（RESP协议）编码的字符串，需要解析出所有的参数，其中参数的个数就存储在argc中  /* Num of arguments of current command. */
+    robj **argv;           //当前命令的参数。 /* Arguments of current command. */
     struct redisCommand *cmd, *lastcmd; //最后一次执行的命令集合 /* Last command executed. */
     user *user;             /* User associated with this connection. If the
                                user is set to NULL the connection can do
@@ -766,8 +763,7 @@ typedef struct client {
     long bulklen;           /* Length of bulk argument in multi bulk request. */
     list *reply;  //需要响应对象的链表          /* List of reply objects to send to the client. */
     unsigned long long reply_bytes; //需要响应对象的总大小 /* Tot bytes of objects in reply list. */
-    size_t sentlen;         /* Amount of bytes already sent in the current
-                               buffer or object being sent. */
+    size_t sentlen;      //表示已经返回给客户端的字节数
     time_t ctime;           /* Client creation time. */
     time_t lastinteraction; /* Time of the last interaction, used for timeout */
     time_t obuf_soft_limit_reached_time;
@@ -1387,24 +1383,20 @@ typedef struct pubsubPattern {
 typedef void redisCommandProc(client *c);
 typedef int *redisGetKeysProc(struct redisCommand *cmd, robj **argv, int argc, int *numkeys);
 struct redisCommand {
-    char *name;
-    redisCommandProc *proc;
-    int arity;
-    char *sflags;   /* Flags as string representation, one char per flag. */
-    uint64_t flags; /* The actual flags, obtained from the 'sflags' field. */
+    char *name; //命令名称
+    redisCommandProc *proc; //命令对应的处理函数指针
+    int arity; //命令参数数量
+    char *sflags;   // 命令标志/* Flags as string representation, one char per flag. */
+    uint64_t flags; //命令二进制标志/* The actual flags, obtained from the 'sflags' field. */
     /* Use a function to determine keys arguments in a command line.
      * Used for Redis Cluster redirect. */
-    redisGetKeysProc *getkeys_proc;
+    redisGetKeysProc *getkeys_proc; //获取键的处理函数
     /* What keys should be loaded in background when calling this command? */
-    int firstkey; /* The first argument that's a key (0 = no keys) */
+    int firstkey; //第一个参数 /* The first argument that's a key (0 = no keys) */
     int lastkey;  /* The last argument that's a key */
     int keystep;  /* The step between first and last key */
-    long long microseconds, calls;
-    int id;     /* Command ID. This is a progressive ID starting from 0 that
-                   is assigned at runtime, and is used in order to check
-                   ACLs. A connection is able to execute a given command if
-                   the user associated to the connection has this command
-                   bit set in the bitmap of allowed commands. */
+    long long microseconds, calls; //当前命令的总执行次数和总执行时间
+    int id;   //命令对应的ID ，运行的时候动态分配的，用于ACL鉴权指定命令使用权限
 };
 
 struct redisFunctionSym {

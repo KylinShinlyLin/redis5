@@ -21,12 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ed53ee17-2c3c-46d1-bb3a-412858a76c37" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/db.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/db.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/evict.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/evict.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/object.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/object.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/quicklist.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/quicklist.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/t_set.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/t_set.c" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -62,36 +58,9 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/quicklist.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2660">
-              <caret line="140" column="43" selection-start-line="140" selection-start-column="43" selection-end-line="140" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Makefile">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/replication.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19209">
-              <caret line="1011" column="47" selection-start-line="1011" selection-start-column="47" selection-end-line="1011" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/object.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
+            <state relative-caret-position="6897">
               <caret line="363" column="59" selection-start-line="363" selection-start-column="59" selection-end-line="363" selection-end-column="59" />
             </state>
           </provider>
@@ -100,17 +69,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/db.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="874">
               <caret line="46" column="38" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/server.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="1461" column="4" selection-start-line="1461" selection-start-column="4" selection-end-line="1461" selection-end-column="4" />
+            <state relative-caret-position="268">
+              <caret line="2824" column="73" lean-forward="true" selection-start-line="2824" selection-start-column="73" selection-end-line="2824" selection-end-column="73" />
               <folding>
                 <element signature="e#1611#1630#0" expanded="true" />
               </folding>
@@ -119,22 +88,49 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deps/hiredis/dict.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="229">
+              <caret line="134" column="11" selection-start-line="134" selection-start-column="11" selection-end-line="134" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/acl.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="229">
+              <caret line="989" column="14" selection-start-line="989" selection-start-column="14" selection-end-line="989" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/evict.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
+            <state relative-caret-position="6365">
               <caret line="335" column="48" selection-start-line="335" selection-start-column="48" selection-end-line="335" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="621" column="66" selection-start-line="621" selection-start-column="66" selection-end-line="621" selection-end-column="66" />
+            <state relative-caret-position="212">
+              <caret line="1384" column="21" lean-forward="true" selection-start-line="1384" selection-start-column="21" selection-end-line="1384" selection-end-column="21" />
               <folding>
                 <element signature="e#1648#1668#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/connection.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -171,12 +167,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dictFreeVal</find>
-      <find>valDestructor</find>
-      <find>quicklistCreate</find>
-      <find>quicklistPushHead</find>
-      <find>quicklistPushhead</find>
-      <find>quicklistNodeUpdateSz</find>
       <find>ziplistBlobLen</find>
       <find>quicklistDelIndex</find>
       <find>quicklistPop</find>
@@ -199,8 +189,14 @@
       <find>num_periods</find>
       <find>ldt</find>
       <find>client</find>
-      <find>typedef struct client</find>
       <find>typedef struct redisDb</find>
+      <find>typedef struct client</find>
+      <find>pending_querybuf</find>
+      <find>struct redisSer</find>
+      <find>ipfd_count</find>
+      <find>struct redisCommand redisC</find>
+      <find>struct redisCommand {</find>
+      <find>populateCommandTable</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -236,10 +232,10 @@
         <option value="$PROJECT_DIR$/src/quicklist.c" />
         <option value="$PROJECT_DIR$/src/t_set.c" />
         <option value="$PROJECT_DIR$/src/object.c" />
-        <option value="$PROJECT_DIR$/src/server.c" />
         <option value="$PROJECT_DIR$/src/db.c" />
         <option value="$PROJECT_DIR$/src/evict.c" />
         <option value="$PROJECT_DIR$/src/server.h" />
+        <option value="$PROJECT_DIR$/src/server.c" />
       </list>
     </option>
   </component>
@@ -267,7 +263,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -284,6 +279,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -436,7 +432,8 @@
       <workItem from="1582947154809" duration="1877000" />
       <workItem from="1582958877932" duration="1334000" />
       <workItem from="1583029322224" duration="6969000" />
-      <workItem from="1583078471710" duration="3958000" />
+      <workItem from="1583078471710" duration="4472000" />
+      <workItem from="1583129332592" duration="9694000" />
     </task>
     <task id="LOCAL-00001" summary="保存Redis注释">
       <created>1579186584127</created>
@@ -466,11 +463,18 @@
       <option name="project" value="LOCAL" />
       <updated>1580275733336</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="保存Redis注释">
+      <created>1583082533653</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1583082533653</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="134725000" />
+    <option name="totallyTimeSpent" value="144933000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -485,7 +489,7 @@
     <frame x="-7" y="23" width="1550" height="848" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19034852" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1930295" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -540,11 +544,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="保存Redis注释" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/deps/linenoise/linenoise.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4788" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ae_kqueue.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1387">
@@ -665,20 +664,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
           <caret line="470" column="1" lean-forward="true" selection-start-line="470" selection-start-column="1" selection-end-line="470" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deps/hiredis/dict.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4959">
-          <caret line="261" column="2" selection-start-line="261" selection-start-column="2" selection-end-line="261" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/acl.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7296">
-          <caret line="384" column="28" selection-start-line="384" selection-start-column="28" selection-end-line="384" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -878,6 +863,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/object.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6897">
+          <caret line="363" column="59" selection-start-line="363" selection-start-column="59" selection-end-line="363" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/db.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="874">
+          <caret line="46" column="38" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/evict.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6365">
+          <caret line="335" column="48" selection-start-line="335" selection-start-column="48" selection-end-line="335" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="7676">
@@ -900,43 +906,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/object.c">
+    <entry file="file://$PROJECT_DIR$/src/connection.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="363" column="59" selection-start-line="363" selection-start-column="59" selection-end-line="363" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="1461" column="4" selection-start-line="1461" selection-start-column="4" selection-end-line="1461" selection-end-column="4" />
-          <folding>
-            <element signature="e#1611#1630#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/db.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="46" column="38" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/evict.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="335" column="48" selection-start-line="335" selection-start-column="48" selection-end-line="335" selection-end-column="48" />
+        <state relative-caret-position="171">
+          <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="621" column="66" selection-start-line="621" selection-start-column="66" selection-end-line="621" selection-end-column="66" />
+        <state relative-caret-position="212">
+          <caret line="1384" column="21" lean-forward="true" selection-start-line="1384" selection-start-column="21" selection-end-line="1384" selection-end-column="21" />
           <folding>
             <element signature="e#1648#1668#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/acl.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="989" column="14" selection-start-line="989" selection-start-column="14" selection-end-line="989" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deps/hiredis/dict.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="134" column="11" selection-start-line="134" selection-start-column="11" selection-end-line="134" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="2824" column="73" lean-forward="true" selection-start-line="2824" selection-start-column="73" selection-end-line="2824" selection-end-column="73" />
+          <folding>
+            <element signature="e#1611#1630#0" expanded="true" />
           </folding>
         </state>
       </provider>
