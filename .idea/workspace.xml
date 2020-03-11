@@ -21,8 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ed53ee17-2c3c-46d1-bb3a-412858a76c37" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ae.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/ae.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ae.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/ae.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ae_epoll.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/ae_epoll.c" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -56,107 +57,43 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/object.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6897">
-              <caret line="363" column="59" selection-start-line="363" selection-start-column="59" selection-end-line="363" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/db.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="874">
-              <caret line="46" column="38" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/server.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="2824" column="73" lean-forward="true" selection-start-line="2824" selection-start-column="73" selection-end-line="2824" selection-end-column="73" />
-              <folding>
-                <element signature="e#1611#1630#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deps/hiredis/dict.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="134" column="11" selection-start-line="134" selection-start-column="11" selection-end-line="134" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/acl.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="989" column="14" selection-start-line="989" selection-start-column="14" selection-end-line="989" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/evict.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6365">
-              <caret line="335" column="48" selection-start-line="335" selection-start-column="48" selection-end-line="335" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/server.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="1384" column="21" lean-forward="true" selection-start-line="1384" selection-start-column="21" selection-end-line="1384" selection-end-column="21" />
-              <folding>
-                <element signature="e#1648#1668#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/connection.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="5339">
-                <caret line="281" column="19" selection-start-line="281" selection-start-column="19" selection-end-line="281" selection-end-column="19" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/t_set.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1235">
-              <caret line="65" column="26" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.46983916">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/ae_select.c">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="414">
+                  <caret line="99" column="24" lean-forward="true" selection-start-line="99" selection-start-column="24" selection-end-line="99" selection-end-column="24" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/ae_epoll.c">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="184">
+                  <caret line="119" column="19" lean-forward="true" selection-start-line="119" selection-start-column="19" selection-end-line="119" selection-end-column="19" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/ae.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="145">
+                  <caret line="71" column="25" lean-forward="true" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="25" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -167,28 +104,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ziplistBlobLen</find>
-      <find>quicklistDelIndex</find>
-      <find>quicklistPop</find>
-      <find>int quicklistDelRange(quicklist *quicklist, const long start, const long stop);</find>
-      <find>start</find>
-      <find>quicklistReplaceAtIndex</find>
-      <find>quicklistIndex</find>
-      <find>quicklistIter *quick</find>
-      <find>quicklistDelRange</find>
-      <find>OBJ_ENCODING_RAW</find>
-      <find>subject-&gt;encoding == OBJ_ENCODING_INTSET</find>
-      <find>typedef struct zset</find>
-      <find>redisObject</find>
-      <find>OBJ</find>
-      <find>typedef struct redisObj</find>
-      <find>void decrRefCount</find>
-      <find>server.maxmemory_policy &amp; MAXMEMORY_FLAG_LFU</find>
-      <find>lookupKey</find>
-      <find>updateLFU</find>
-      <find>num_periods</find>
-      <find>ldt</find>
-      <find>client</find>
       <find>typedef struct redisDb</find>
       <find>typedef struct client</find>
       <find>pending_querybuf</find>
@@ -197,6 +112,28 @@
       <find>struct redisCommand redisC</find>
       <find>struct redisCommand {</find>
       <find>populateCommandTable</find>
+      <find>typedef struct aeE</find>
+      <find>while (!event</find>
+      <find>int epoll_create</find>
+      <find>epoll_create</find>
+      <find>EPOLL_CTL_ADD</find>
+      <find>struct epoll_event</find>
+      <find>aeApiAdd</find>
+      <find>static void aeApiDel</find>
+      <find>static int aeaPIpO</find>
+      <find>static int aeapi</find>
+      <find>static void aeApi</find>
+      <find>static int aeApi</find>
+      <find>aeApiResize</find>
+      <find>setsize</find>
+      <find>aeFileEvent</find>
+      <find>aeProcessEvents</find>
+      <find>epoll_event</find>
+      <find>eventLoop</find>
+      <find>aeEventLoop</find>
+      <find>beforesleep</find>
+      <find>aeApiState</find>
+      <find>aeApiPoll</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -212,7 +149,6 @@
         <option value="$PROJECT_DIR$/src/modules/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/deps/lua/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/ae_epoll.c" />
         <option value="$PROJECT_DIR$/src/ae_select.c" />
         <option value="$PROJECT_DIR$/src/ae_evport.c" />
         <option value="$PROJECT_DIR$/deps/hiredis/sds.c" />
@@ -236,6 +172,9 @@
         <option value="$PROJECT_DIR$/src/evict.c" />
         <option value="$PROJECT_DIR$/src/server.h" />
         <option value="$PROJECT_DIR$/src/server.c" />
+        <option value="$PROJECT_DIR$/src/ae.c" />
+        <option value="$PROJECT_DIR$/src/ae_epoll.c" />
+        <option value="$PROJECT_DIR$/src/ae.h" />
       </list>
     </option>
   </component>
@@ -262,25 +201,7 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="redis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="redis" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="redis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="redis" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -433,7 +354,12 @@
       <workItem from="1582958877932" duration="1334000" />
       <workItem from="1583029322224" duration="6969000" />
       <workItem from="1583078471710" duration="4472000" />
-      <workItem from="1583129332592" duration="9694000" />
+      <workItem from="1583129332592" duration="10260000" />
+      <workItem from="1583667151506" duration="1395000" />
+      <workItem from="1583735165037" duration="2182000" />
+      <workItem from="1583767166750" duration="4191000" />
+      <workItem from="1583849315360" duration="1145000" />
+      <workItem from="1583895071512" duration="288000" />
     </task>
     <task id="LOCAL-00001" summary="保存Redis注释">
       <created>1579186584127</created>
@@ -470,11 +396,18 @@
       <option name="project" value="LOCAL" />
       <updated>1583082533653</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="保存Redis注释">
+      <created>1583149613619</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1583149613619</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144933000" />
+    <option name="totallyTimeSpent" value="154700000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -489,7 +422,7 @@
     <frame x="-7" y="23" width="1550" height="848" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1930295" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.19839142" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -512,22 +445,22 @@
       <window_info anchor="right" id="make" order="4" weight="0.3297587" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20174263" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19839142" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32960895" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.65782124" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32960895" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32960895" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32960895" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.61452514" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="CMake" order="11" weight="0.75139666" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.4622905" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.698324" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.27094972" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32960895" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.28072625" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.37569833" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -544,56 +477,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="保存Redis注释" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ae_kqueue.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1387">
-          <caret line="73" column="25" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zmalloc.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3667">
-          <caret line="193" column="23" selection-start-line="193" selection-start-column="23" selection-end-line="193" selection-end-column="23" />
-          <folding>
-            <element signature="e#6595#6654#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/zmalloc.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1558">
-          <caret line="82" column="7" selection-start-line="82" selection-start-column="7" selection-end-line="82" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deps/hiredis/sds.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2641">
-          <caret line="139" column="27" selection-start-line="139" selection-start-column="27" selection-end-line="139" selection-end-column="27" />
-          <folding>
-            <element signature="e#1728#1746#0" expanded="true" />
-            <element signature="e#34993#40257#0" expanded="true" />
-            <element signature="e#40287#40327#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deps/hiredis/net.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/cluster/tests/helpers/onlydots.tcl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/t_string.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1957">
@@ -771,15 +654,15 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/deps/README.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="78" column="90" lean-forward="true" selection-start-line="78" selection-start-column="90" selection-end-line="78" selection-end-column="90" />
-        </state>
-      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor />
           <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="78" column="90" lean-forward="true" selection-start-line="78" selection-start-column="90" selection-end-line="78" selection-end-column="90" />
         </state>
       </provider>
     </entry>
@@ -877,25 +760,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/deps/hiredis/dict.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2546">
+          <caret line="134" column="11" selection-start-line="134" selection-start-column="11" selection-end-line="134" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53219">
+          <caret line="2801" column="47" selection-start-line="2801" selection-start-column="47" selection-end-line="2801" selection-end-column="47" />
+          <folding>
+            <element signature="e#1611#1630#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/evict.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6365">
-          <caret line="335" column="48" selection-start-line="335" selection-start-column="48" selection-end-line="335" selection-end-column="48" />
+        <state relative-caret-position="152">
+          <caret line="8" column="78" lean-forward="true" selection-start-line="8" selection-start-column="78" selection-end-line="8" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26296">
+          <caret line="1384" column="21" selection-start-line="1384" selection-start-column="21" selection-end-line="1384" selection-end-column="21" />
+          <folding>
+            <element signature="e#1648#1668#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="8227">
+            <caret line="433" column="30" selection-start-line="433" selection-start-column="30" selection-end-line="433" selection-end-column="30" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="7676">
           <caret line="404" selection-start-line="404" selection-end-line="404" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="5339">
-            <caret line="281" column="19" selection-start-line="281" selection-start-column="19" selection-end-line="281" selection-end-column="19" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -906,44 +816,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/acl.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="511">
+          <caret line="983" column="72" selection-start-line="983" selection-start-column="72" selection-end-line="983" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ae_kqueue.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="112" column="37" selection-start-line="112" selection-start-column="37" selection-end-line="112" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ae.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="424" column="26" selection-start-line="424" selection-start-column="26" selection-end-line="424" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/cygwin64/usr/include/sys/epoll.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="40" column="8" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/connection.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
+        <state relative-caret-position="625">
           <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/server.h">
+    <entry file="file://$PROJECT_DIR$/src/ae.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="1384" column="21" lean-forward="true" selection-start-line="1384" selection-start-column="21" selection-end-line="1384" selection-end-column="21" />
-          <folding>
-            <element signature="e#1648#1668#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="145">
+          <caret line="71" column="25" lean-forward="true" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/acl.c">
+    <entry file="file://$PROJECT_DIR$/src/ae_select.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="989" column="14" selection-start-line="989" selection-start-column="14" selection-end-line="989" selection-end-column="14" />
+        <state relative-caret-position="414">
+          <caret line="99" column="24" lean-forward="true" selection-start-line="99" selection-start-column="24" selection-end-line="99" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deps/hiredis/dict.c">
+    <entry file="file://$PROJECT_DIR$/src/ae_epoll.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="134" column="11" selection-start-line="134" selection-start-column="11" selection-end-line="134" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="2824" column="73" lean-forward="true" selection-start-line="2824" selection-start-column="73" selection-end-line="2824" selection-end-column="73" />
-          <folding>
-            <element signature="e#1611#1630#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="184">
+          <caret line="119" column="19" lean-forward="true" selection-start-line="119" selection-start-column="19" selection-end-line="119" selection-end-column="19" />
         </state>
       </provider>
     </entry>

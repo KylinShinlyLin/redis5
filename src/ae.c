@@ -431,7 +431,7 @@ int aeProcessEvents(aeEventLoop *eventLoop, int flags)
         for (j = 0; j < numevents; j++) {
             aeFileEvent *fe = &eventLoop->events[eventLoop->fired[j].fd];
             int mask = eventLoop->fired[j].mask;
-            int fd = eventLoop->fired[j].fd;
+            int fd = eventLoop->fired[j].fd;int
             int fired = 0; /* Number of events fired for current fd. */
 
             /* Normally we execute the readable event first, and the writable
@@ -507,12 +507,16 @@ int aeWait(int fd, int mask, long long milliseconds) {
     }
 }
 
+/**
+ * 事件驱动的主入口
+ * @param eventLoop
+ */
 void aeMain(aeEventLoop *eventLoop) {
-    eventLoop->stop = 0;
-    while (!eventLoop->stop) {
+    eventLoop->stop = 0; //设置停止标记为（不停止）
+    while (!eventLoop->stop) { //除非停止标志被设置，不然循环不会停止
         if (eventLoop->beforesleep != NULL)
-            eventLoop->beforesleep(eventLoop);
-        aeProcessEvents(eventLoop, AE_ALL_EVENTS|AE_CALL_AFTER_SLEEP);
+            eventLoop->beforesleep(eventLoop);//函数不为空，先执行阻塞函数
+        aeProcessEvents(eventLoop, AE_ALL_EVENTS|AE_CALL_AFTER_SLEEP);//执行事件
     }
 }
 

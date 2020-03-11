@@ -69,10 +69,10 @@ typedef void aeBeforeSleepProc(struct aeEventLoop *eventLoop);
 
 /* File event structure */
 typedef struct aeFileEvent {
-    int mask; /* one of AE_(READABLE|WRITABLE|BARRIER) */
-    aeFileProc *rfileProc;
-    aeFileProc *wfileProc;
-    void *clientData;
+    int mask; //存储监控的文件事件类型 /* one of AE_(READABLE|WRITABLE|BARRIER) */
+    aeFileProc *rfileProc; //函数指针，指向读事件处理函数
+    aeFileProc *wfileProc; //函数指针，指向写事件处理函数
+    void *clientData; //指向对应的客户端对象
 } aeFileEvent;
 
 /* Time event structure */
@@ -95,18 +95,18 @@ typedef struct aeFiredEvent {
 
 /* State of an event based program */
 typedef struct aeEventLoop {
-    int maxfd;   /* highest file descriptor currently registered */
-    int setsize; /* max number of file descriptors tracked */
-    long long timeEventNextId;
-    time_t lastTime;     /* Used to detect system clock skew */
-    aeFileEvent *events; /* Registered events */
-    aeFiredEvent *fired; /* Fired events */
-    aeTimeEvent *timeEventHead;
-    int stop;
-    void *apidata; /* This is used for polling API specific data */
-    aeBeforeSleepProc *beforesleep;
-    aeBeforeSleepProc *aftersleep;
-    int flags;
+    int maxfd;   //已经接受的最大的文件描述符  /* highest file descriptor currently registered */
+    int setsize; //当前循环中所能容纳的文件描述符的数量  /* max number of file descriptors tracked */
+    long long timeEventNextId;//下一个时间事件的ID
+    time_t lastTime;//上一次被访问的时间，用来检测系统时钟是否被修改    // /* Used to detect system clock skew */
+    aeFileEvent *events; //文件事件数组 /* Registered events */
+    aeFiredEvent *fired; //被触发的文件事件 /* Fired events */
+    aeTimeEvent *timeEventHead; //事件实现的head，是一个链表
+    int stop; //标识事件是否停止
+    void *apidata; //对kqueue epoll nio等封装 类型是aeApiState /* This is used for polling API specific data */
+    aeBeforeSleepProc *beforesleep;//用于阻塞的函数
+    aeBeforeSleepProc *aftersleep;//用于唤醒的函数
+    int flags; //事件类型标志
 } aeEventLoop;
 
 /* Prototypes */
