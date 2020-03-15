@@ -53,7 +53,7 @@
 #define AE_DONT_WAIT 4
 #define AE_CALL_AFTER_SLEEP 8
 
-#define AE_NOMORE -1
+#define  AE_NOMORE -1
 #define AE_DELETED_EVENT_ID -1
 
 /* Macros */
@@ -77,14 +77,14 @@ typedef struct aeFileEvent {
 
 /* Time event structure */
 typedef struct aeTimeEvent {
-    long long id; /* time event identifier. */
-    long when_sec; /* seconds */
-    long when_ms; /* milliseconds */
-    aeTimeProc *timeProc;
-    aeEventFinalizerProc *finalizerProc;
-    void *clientData;
-    struct aeTimeEvent *prev;
-    struct aeTimeEvent *next;
+    long long id; //时间事件ID/* time event identifier. */
+    long when_sec; //触发的秒数/* seconds */
+    long when_ms;  //触发的毫秒数/* milliseconds */
+    aeTimeProc *timeProc; //函数指针，指向时间事件的处理函数
+    aeEventFinalizerProc *finalizerProc; //函数指针，删除时间事件节点之前会先调用该函数（就是个钩子）
+    void *clientData;//指向对应客户端对象
+    struct aeTimeEvent *prev;//上一个节点
+    struct aeTimeEvent *next;//下一个节点
 } aeTimeEvent;
 
 /* A fired event */
@@ -100,7 +100,7 @@ typedef struct aeEventLoop {
     long long timeEventNextId;//下一个时间事件的ID
     time_t lastTime;//上一次被访问的时间，用来检测系统时钟是否被修改    // /* Used to detect system clock skew */
     aeFileEvent *events; //文件事件数组 /* Registered events */
-    aeFiredEvent *fired; //被触发的文件事件 /* Fired events */
+    aeFiredEvent *fired; //被触发的文件事件数组 /* Fired events */
     aeTimeEvent *timeEventHead; //事件实现的head，是一个链表
     int stop; //标识事件是否停止
     void *apidata; //对kqueue epoll nio等封装 类型是aeApiState /* This is used for polling API specific data */

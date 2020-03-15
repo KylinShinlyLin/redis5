@@ -1848,9 +1848,11 @@ int serverCron(struct aeEventLoop *eventLoop, long long id, void *clientData) {
     }
 
     /* We need to do a few operations on clients asynchronously. */
+    //清除客户端连接
     clientsCron();
 
     /* Handle background operations on Redis databases. */
+    //处理数据库
     databasesCron();
 
     /* Start a scheduled AOF rewrite if this was requested by the user while
@@ -4940,10 +4942,12 @@ int main(int argc, char **argv) {
     if (server.maxmemory > 0 && server.maxmemory < 1024*1024) {
         serverLog(LL_WARNING,"WARNING: You specified a maxmemory value that is less than 1MB (current value is %llu bytes). Are you sure this is what you really want?", server.maxmemory);
     }
-
+    //设置beforeSleep 和 afterSleep 函数
     aeSetBeforeSleepProc(server.el,beforeSleep);
     aeSetAfterSleepProc(server.el,afterSleep);
+    //开启ae循环
     aeMain(server.el);
+    //服务器被关闭，ae循环结束
     aeDeleteEventLoop(server.el);
     return 0;
 }

@@ -205,6 +205,7 @@ void activeExpireCycle(int type) {
 
         /* Continue to expire if at the end of the cycle more than 25%
          * of the keys were expired. */
+        //查找并删除过期键
         do {
             unsigned long num, slots;
             long long now, ttl_sum;
@@ -306,7 +307,7 @@ void activeExpireCycle(int type) {
             /* We don't repeat the cycle for the current database if there are
              * an acceptable amount of stale keys (logically expired but yet
              * not reclained). */
-        } while ((expired*100/sampled) > config_cycle_acceptable_stale);
+        } while ((expired*100/sampled) > config_cycle_acceptable_stale);//判断是否超时
     }
 
     elapsed = ustime()-start;

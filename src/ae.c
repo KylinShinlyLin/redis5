@@ -149,15 +149,15 @@ int aeCreateFileEvent(aeEventLoop *eventLoop, int fd, int mask,
         errno = ERANGE;
         return AE_ERR;
     }
-    aeFileEvent *fe = &eventLoop->events[fd];
+    aeFileEvent *fe = &eventLoop->events[fd];//提取指针
 
     if (aeApiAddEvent(eventLoop, fd, mask) == -1)
         return AE_ERR;
-    fe->mask |= mask;
-    if (mask & AE_READABLE) fe->rfileProc = proc;
-    if (mask & AE_WRITABLE) fe->wfileProc = proc;
-    fe->clientData = clientData;
-    if (fd > eventLoop->maxfd)
+    fe->mask |= mask; //判断独写类型标志
+    if (mask & AE_READABLE) fe->rfileProc = proc;//添加读函数
+    if (mask & AE_WRITABLE) fe->wfileProc = proc;//添加写函数
+    fe->clientData = clientData;//添加对应的客户端对象
+    if (fd > eventLoop->maxfd) //判断是否需要更改最大的文件描述符
         eventLoop->maxfd = fd;
     return AE_OK;
 }
@@ -290,6 +290,7 @@ static int processTimeEvents(aeEventLoop *eventLoop) {
      * events to be processed ASAP when this happens: the idea is that
      * processing events earlier is less dangerous than delaying them
      * indefinitely, and practice suggests it is. */
+    //防止ntp 时间同步带来的时间回拨，这样通过循环设置当前已经触发的事件等待时间为0
     if (now < eventLoop->lastTime) {
         te = eventLoop->timeEventHead;
         while(te) {
@@ -306,6 +307,7 @@ static int processTimeEvents(aeEventLoop *eventLoop) {
         long long id;
 
         /* Remove events scheduled for deletion. */
+        //判断该事件是否已需要删除
         if (te->id == AE_DELETED_EVENT_ID) {
             aeTimeEvent *next = te->next;
             if (te->prev)
@@ -326,19 +328,24 @@ static int processTimeEvents(aeEventLoop *eventLoop) {
          * add new timers on the head, however if we change the implementation
          * detail, this check may be useful again: we keep it here for future
          * defense. */
+        //一个防御校验，防止当前事件的ID已经溢出，正常的事件ID是递增的，防止认为导致添加异常事件
         if (te->id > maxId) {
             te = te->next;
             continue;
         }
+        //获取系统事件
         aeGetTime(&now_sec, &now_ms);
+        //判断当前事件是否到期，到期执行
         if (now_sec > te->when_sec ||
             (now_sec == te->when_sec && now_ms >= te->when_ms))
         {
             int retval;
 
             id = te->id;
+            //执行该事件事件 retval 是下次触发该事件的时间
             retval = te->timeProc(eventLoop, id, te->clientData);
             processed++;
+            //设置时间事件的到期时间
             if (retval != AE_NOMORE) {
                 aeAddMillisecondsToNow(retval,&te->when_sec,&te->when_ms);
             } else {
@@ -382,10 +389,10 @@ int aeProcessEvents(aeEventLoop *eventLoop, int flags)
         struct timeval tv, *tvp;
 
         if (flags & AE_TIME_EVENTS && !(flags & AE_DONT_WAIT))
-            shortest = aeSearchNearestTimer(eventLoop);
+            shortest = aeSearchNearestTimer(eventLoop); //查找最近发生的事件
         if (shortest) {
             long now_sec, now_ms;
-
+            //获取当前时间
             aeGetTime(&now_sec, &now_ms);
             tvp = &tv;
 
@@ -406,6 +413,7 @@ int aeProcessEvents(aeEventLoop *eventLoop, int flags)
             /* If we have to check for events but need to return
              * ASAP because of AE_DONT_WAIT we need to set the timeout
              * to zero */
+            //不需要等待，设置时间等待为0
             if (flags & AE_DONT_WAIT) {
                 tv.tv_sec = tv.tv_usec = 0;
                 tvp = &tv;
@@ -422,18 +430,21 @@ int aeProcessEvents(aeEventLoop *eventLoop, int flags)
 
         /* Call the multiplexing API, will return only on timeout or when
          * some event fires. */
+        //阻塞等待文件事件发生
         numevents = aeApiPoll(eventLoop, tvp);
 
         /* After sleep callback. */
         if (eventLoop->aftersleep != NULL && flags & AE_CALL_AFTER_SLEEP)
             eventLoop->aftersleep(eventLoop);
 
+        //执行已经触发的文件事件
         for (j = 0; j < numevents; j++) {
+            //判断事件类型
             aeFileEvent *fe = &eventLoop->events[eventLoop->fired[j].fd];
             int mask = eventLoop->fired[j].mask;
-            int fd = eventLoop->fired[j].fd;int
+            int fd = eventLoop->fired[j].fd;
             int fired = 0; /* Number of events fired for current fd. */
-
+            //处理文件事件，并且根据类型去执行 读函数或者写函数
             /* Normally we execute the readable event first, and the writable
              * event laster. This is useful as sometimes we may be able
              * to serve the reply of a query immediately after processing the
@@ -445,6 +456,7 @@ int aeProcessEvents(aeEventLoop *eventLoop, int flags)
              * This is useful when, for instance, we want to do things
              * in the beforeSleep() hook, like fsynching a file to disk,
              * before replying to a client. */
+            //判断是否为等待一同处理类型的事件？
             int invert = fe->mask & AE_BARRIER;
 
             /* Note the "fe->mask & mask & ..." code: maybe an already
@@ -453,35 +465,36 @@ int aeProcessEvents(aeEventLoop *eventLoop, int flags)
              *
              * Fire the readable event if the call sequence is not
              * inverted. */
+            //被触发的读事件
             if (!invert && fe->mask & mask & AE_READABLE) {
                 fe->rfileProc(eventLoop,fd,fe->clientData,mask);
                 fired++;
             }
-
             /* Fire the writable event. */
+            //没有被触发的写事件
             if (fe->mask & mask & AE_WRITABLE) {
                 if (!fired || fe->wfileProc != fe->rfileProc) {
                     fe->wfileProc(eventLoop,fd,fe->clientData,mask);
                     fired++;
                 }
             }
-
             /* If we have to invert the call, fire the readable event now
              * after the writable one. */
+            //没有被触发的读事件
             if (invert && fe->mask & mask & AE_READABLE) {
                 if (!fired || fe->wfileProc != fe->rfileProc) {
                     fe->rfileProc(eventLoop,fd,fe->clientData,mask);
                     fired++;
                 }
             }
-
             processed++;
         }
     }
     /* Check time events */
     if (flags & AE_TIME_EVENTS)
+        //执行时间事件
         processed += processTimeEvents(eventLoop);
-
+    //返回当前正在执行的文件或者时间事件数量
     return processed; /* return the number of processed file/time events */
 }
 

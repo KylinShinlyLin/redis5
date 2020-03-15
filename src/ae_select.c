@@ -95,6 +95,7 @@ static int aeApiPoll(aeEventLoop *eventLoop, struct timeval *tvp) {
                 mask |= AE_READABLE;
             if (fe->mask & AE_WRITABLE && FD_ISSET(j, &state->_wfds))
                 mask |= AE_WRITABLE;
+            //将已经触发的事件添加到触发数组里面
             eventLoop->fired[numevents].fd = j;
             eventLoop->fired[numevents].mask = mask;
             numevents++;
