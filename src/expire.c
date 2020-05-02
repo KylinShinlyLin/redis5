@@ -155,10 +155,11 @@ void activeExpireCycle(int type) {
          * for time limit, unless the percentage of estimated stale keys is
          * too high. Also never repeat a fast cycle for the same period
          * as the fast cycle total duration itself. */
+        //上次activeExpirCycle函数是否已经执行完毕（时间用完之间返回）
         if (!timelimit_exit &&
             server.stat_expired_stale_perc < config_cycle_acceptable_stale)
             return;
-
+        //当前时间距离上次执行快速过期删除是否已经超过2000微秒
         if (start < last_fast_cycle + (long long)config_cycle_fast_duration*2)
             return;
 
@@ -183,6 +184,7 @@ void activeExpireCycle(int type) {
     timelimit_exit = 0;
     if (timelimit <= 0) timelimit = 1;
 
+    //快速过期键删除时，函数执行时间不超过1000微秒
     if (type == ACTIVE_EXPIRE_CYCLE_FAST)
         timelimit = config_cycle_fast_duration; /* in microseconds. */
 

@@ -1179,12 +1179,12 @@ dictType zsetDictType = {
 
 /* Db->dict, keys are sds strings, vals are Redis objects. */
 dictType dbDictType = {
-    dictSdsHash,                /* hash function */
+    dictSdsHash,               //当前字典键散列函数 /* hash function */
     NULL,                       /* key dup */
     NULL,                       /* val dup */
-    dictSdsKeyCompare,          /* key compare */
-    dictSdsDestructor,          /* key destructor */
-    dictObjectDestructor   /* val destructor */
+    dictSdsKeyCompare,         //当前字典键的比较函数 /* key compare */
+    dictSdsDestructor,         //当前字典键销毁函数 /* key destructor */
+    dictObjectDestructor       //当前字典对象销毁函数
 };
 
 /* server.lua_scripts sha (as sds string) -> scripts (as robj) cache. */
@@ -2027,6 +2027,7 @@ void beforeSleep(struct aeEventLoop *eventLoop) {
     flushAppendOnlyFile(0);
 
     /* Handle writes with pending output buffers. */
+    // 通过多线程的方式处理客户端需要输出的数据
     handleClientsWithPendingWritesUsingThreads();
 
     /* Close clients that need to be closed asynchronous */
@@ -2164,7 +2165,7 @@ void createSharedObjects(void) {
 
 void initServerConfig(void) {
     int j;
-
+    //初始化缓存时间
     updateCachedTime(1);
     getRandomHexChars(server.runid,CONFIG_RUN_ID_SIZE);
     server.runid[CONFIG_RUN_ID_SIZE] = '\0';
@@ -2184,6 +2185,7 @@ void initServerConfig(void) {
     server.saveparams = NULL;
     server.loading = 0;
     server.logfile = zstrdup(CONFIG_DEFAULT_LOGFILE);
+    //AOF相关配置
     server.aof_state = AOF_OFF;
     server.aof_rewrite_base_size = 0;
     server.aof_rewrite_scheduled = 0;
@@ -2208,7 +2210,7 @@ void initServerConfig(void) {
     server.migrate_cached_sockets = dictCreate(&migrateCacheDictType,NULL);
     server.next_client_id = 1; /* Client IDs, start from 1 .*/
     server.loading_process_events_interval_bytes = (1024*1024*2);
-
+    //获取LRU的时间戳
     server.lruclock = getLRUClock();
     resetServerSaveParams();
 
@@ -2217,6 +2219,7 @@ void initServerConfig(void) {
     appendServerSaveParams(60,10000); /* save after 1 minute and 10000 changes */
 
     /* Replication related */
+    //主从同步配置
     server.masterauth = NULL;
     server.masterhost = NULL;
     server.masterport = 6379;
@@ -2230,7 +2233,6 @@ void initServerConfig(void) {
     server.repl_syncio_timeout = CONFIG_REPL_SYNCIO_TIMEOUT;
     server.repl_down_since = 0; /* Never connected, repl is down since EVER. */
     server.master_repl_offset = 0;
-
     /* Replication partial resync backlog */
     server.repl_backlog = NULL;
     server.repl_backlog_histlen = 0;
@@ -2239,6 +2241,7 @@ void initServerConfig(void) {
     server.repl_no_slaves_since = time(NULL);
 
     /* Client output buffer limits */
+    //客户端响应缓冲区空间
     for (j = 0; j < CLIENT_TYPE_OBUF_COUNT; j++)
         server.client_obuf_limits[j] = clientBufferLimitsDefaults[j];
 
@@ -2251,8 +2254,11 @@ void initServerConfig(void) {
     /* Command table -- we initiialize it here as it is part of the
      * initial configuration, since command names may be changed via
      * redis.conf using the rename-command directive. */
+    //创建命令字典
     server.commands = dictCreate(&commandTableDictType,NULL);
+    //创建兼容旧版本命令字典
     server.orig_commands = dictCreate(&commandTableDictType,NULL);
+    //预热缓存常用命令
     populateCommandTable();
     server.delCommand = lookupCommandByCString("del");
     server.multiCommand = lookupCommandByCString("multi");
@@ -2269,6 +2275,7 @@ void initServerConfig(void) {
     server.xgroupCommand = lookupCommandByCString("xgroup");
 
     /* Debugging */
+    //debug配置
     server.assert_failed = "<no assertion failed>";
     server.assert_file = "<no file>";
     server.assert_line = 0;
@@ -2280,7 +2287,7 @@ void initServerConfig(void) {
      * script to the slave / AOF. This is the new way starting from
      * Redis 5. However it is possible to revert it via redis.conf. */
     server.lua_always_replicate_commands = 1;
-
+    //初始化其它默认配置
     initConfigValues();
 }
 
@@ -2468,20 +2475,25 @@ void checkTcpBacklogSettings(void) {
  * impossible to bind, or no bind addresses were specified in the server
  * configuration but the function is not able to bind * for at least
  * one of the IPv4 or IPv6 protocols. */
+//入参分别是 端口 fds是数组指向所有socket文件描述符 count存储socket数量
 int listenToPort(int port, int *fds, int *count) {
     int j;
 
     /* Force binding of 0.0.0.0 if no bind address is specified, always
      * entering the loop if j == 0. */
     if (server.bindaddr_count == 0) server.bindaddr[0] = NULL;
+    //遍历所有需要bind的 ip
     for (j = 0; j < server.bindaddr_count || j == 0; j++) {
+        //如果为空，使用默认值，即绑定IPV4 又 绑定 IPV6
         if (server.bindaddr[j] == NULL) {
             int unsupported = 0;
             /* Bind * for both IPv6 and IPv4, we enter here only if
              * server.bindaddr_count == 0. */
+            //创建socket并启动监听，文件描述符存储在fds数组作为返回参数（IPV6）
             fds[*count] = anetTcp6Server(server.neterr,port,NULL,
                 server.tcp_backlog);
             if (fds[*count] != ANET_ERR) {
+                //设置socket 为非阻塞
                 anetNonBlock(NULL,fds[*count]);
                 (*count)++;
             } else if (errno == EAFNOSUPPORT) {
@@ -2491,9 +2503,11 @@ int listenToPort(int port, int *fds, int *count) {
 
             if (*count == 1 || unsupported) {
                 /* Bind the IPv4 address as well. */
+                //创建socket并启动监听，文件描述符存储在fds数组作为返回参数（IPV4）
                 fds[*count] = anetTcpServer(server.neterr,port,NULL,
                     server.tcp_backlog);
                 if (fds[*count] != ANET_ERR) {
+                    //设置socket 为非阻塞
                     anetNonBlock(NULL,fds[*count]);
                     (*count)++;
                 } else if (errno == EAFNOSUPPORT) {
@@ -2506,11 +2520,14 @@ int listenToPort(int port, int *fds, int *count) {
              * error and return to the caller with an error. */
             if (*count + unsupported == 2) break;
         } else if (strchr(server.bindaddr[j],':')) {
-            /* Bind IPv6 address. */
+            //IP里面有带 : 肯定是IPV6
+            //创建socket并启动监听，文件描述符存储在fds数组作为返回参数（IPV6）
             fds[*count] = anetTcp6Server(server.neterr,port,server.bindaddr[j],
                 server.tcp_backlog);
         } else {
+            //如果没有 : 而且还有 IP 那就是 IPV4
             /* Bind IPv4 address. */
+            //创建socket并启动监听，文件描述符存储在fds数组作为返回参数（IPV4）
             fds[*count] = anetTcpServer(server.neterr,port,server.bindaddr[j],
                 server.tcp_backlog);
         }
@@ -2525,6 +2542,7 @@ int listenToPort(int port, int *fds, int *count) {
                     continue;
             return C_ERR;
         }
+        //设置socket 为非阻塞
         anetNonBlock(NULL,fds[*count]);
         (*count)++;
     }
@@ -2583,10 +2601,13 @@ void initServer(void) {
 
     /* Initialization after setting defaults from the config system. */
     server.aof_state = server.aof_enabled ? AOF_ON : AOF_OFF;
+    //serverCron函数执行频率，默认为10
     server.hz = server.config_hz;
+    //当前线程PID
     server.pid = getpid();
     server.current_client = NULL;
     server.fixed_time_expire = 0;
+    //初始化客户端链表
     server.clients = listCreate();
     server.clients_index = raxNew();
     server.clients_to_close = listCreate();
@@ -2616,12 +2637,15 @@ void initServer(void) {
             strerror(errno));
         exit(1);
     }
+    //分配数据库空间默认16个数据库
     server.db = zmalloc(sizeof(redisDb)*server.dbnum);
 
     /* Open the TCP listening socket for the user commands. */
+    //监听TCP端口
     if (server.port != 0 &&
         listenToPort(server.port,server.ipfd,&server.ipfd_count) == C_ERR)
         exit(1);
+    //监听TLS
     if (server.tls_port != 0 &&
         listenToPort(server.tls_port,server.tlsfd,&server.tlsfd_count) == C_ERR)
         exit(1);
@@ -2703,6 +2727,7 @@ void initServer(void) {
     /* Create the timer callback, this is our way to process many background
      * operations incrementally, like clients timeout, eviction of unaccessed
      * expired keys and so forth. */
+    //创建时间事件
     if (aeCreateTimeEvent(server.el, 1, serverCron, NULL, NULL) == AE_ERR) {
         serverPanic("Can't create event loop timers.");
         exit(1);
@@ -2710,6 +2735,7 @@ void initServer(void) {
 
     /* Create an event handler for accepting new connections in TCP and Unix
      * domain sockets. */
+    //对IP socket 创建文件事件
     for (j = 0; j < server.ipfd_count; j++) {
         if (aeCreateFileEvent(server.el, server.ipfd[j], AE_READABLE,
             acceptTcpHandler,NULL) == AE_ERR)
@@ -2718,6 +2744,7 @@ void initServer(void) {
                     "Unrecoverable error creating server.ipfd file event.");
             }
     }
+    //对 tls 创建文件事件
     for (j = 0; j < server.tlsfd_count; j++) {
         if (aeCreateFileEvent(server.el, server.tlsfd[j], AE_READABLE,
             acceptTLSHandler,NULL) == AE_ERR)
@@ -2754,6 +2781,7 @@ void initServer(void) {
      * no explicit limit in the user provided configuration we set a limit
      * at 3 GB using maxmemory with 'noeviction' policy'. This avoids
      * useless crashes of the Redis instance for out of memory. */
+    //限制32位最大内存使用空间位3GB
     if (server.arch_bits == 32 && server.maxmemory == 0) {
         serverLog(LL_WARNING,"Warning: 32 bit instance detected but no memory limit set. Setting 3 GB maxmemory limit with 'noeviction' policy now.");
         server.maxmemory = 3072LL*(1024*1024); /* 3 GB */
@@ -3211,6 +3239,7 @@ int processCommand(client *c) {
      * go through checking for replication and QUIT will cause trouble
      * when FORCE_REPLICATION is enabled and would be implemented in
      * a regular command proc. */
+    //如果是quit直接返回，关闭client
     if (!strcasecmp(c->argv[0]->ptr,"quit")) {
         addReply(c,shared.ok);
         c->flags |= CLIENT_CLOSE_AFTER_REPLY;
@@ -3219,8 +3248,10 @@ int processCommand(client *c) {
 
     /* Now lookup the command and check ASAP about trivial error conditions
      * such as wrong arity, bad command name and so forth. */
+    //查找命令
     c->cmd = c->lastcmd = lookupCommand(c->argv[0]->ptr);
     if (!c->cmd) {
+        //如果找不到返回错误
         flagTransaction(c);
         sds args = sdsempty();
         int i;
@@ -3232,6 +3263,7 @@ int processCommand(client *c) {
         return C_OK;
     } else if ((c->cmd->arity > 0 && c->cmd->arity != c->argc) ||
                (c->argc < -c->cmd->arity)) {
+        //参数数量错误也返回错误
         flagTransaction(c);
         addReplyErrorFormat(c,"wrong number of arguments for '%s' command",
             c->cmd->name);
@@ -3240,11 +3272,13 @@ int processCommand(client *c) {
 
     /* Check if the user is authenticated. This check is skipped in case
      * the default user is flagged as "nopass" and is active. */
+    //判断当前是否需要身份认证
     int auth_required = (!(DefaultUser->flags & USER_FLAG_NOPASS) ||
                            DefaultUser->flags & USER_FLAG_DISABLED) &&
                         !c->authenticated;
     if (auth_required) {
         /* AUTH and HELLO are valid even in non authenticated state. */
+        //需要认证的情况下只能使用 auth  和 hello
         if (c->cmd->proc != authCommand && c->cmd->proc != helloCommand) {
             flagTransaction(c);
             addReply(c,shared.noautherr);
@@ -3300,15 +3334,20 @@ int processCommand(client *c) {
      * the event loop since there is a busy Lua script running in timeout
      * condition, to avoid mixing the propagation of scripts with the
      * propagation of DELs due to eviction. */
+    //拒绝执行带有m标识的命令，到内存到达上限的时候的内存保护机制
     if (server.maxmemory && !server.lua_timedout) {
+        //先调用freeMemoryIfNeededAndSafe进行一次内存释放
         int out_of_memory = freeMemoryIfNeededAndSafe() == C_ERR;
         /* freeMemoryIfNeeded may flush slave output buffers. This may result
          * into a slave, that may be the active client, to be freed. */
+        //释放内存可能会清空主从同步slave的缓冲区，这可能会导致释放一个活跃的slave客户端
         if (server.current_client == NULL) return C_ERR;
 
         /* It was impossible to free enough memory, and the command the client
          * is trying to execute is denied during OOM conditions or the client
          * is in MULTI/EXEC context? Error. */
+        //当内存释放也不能解决内存问题的时候，客户端试图执行命令在OOM的情况下被拒绝
+        // 或者客户端处于MULTI/EXEC的上下文中
         if (out_of_memory &&
             (c->cmd->flags & CMD_DENYOOM ||
              (c->flags & CLIENT_MULTI &&

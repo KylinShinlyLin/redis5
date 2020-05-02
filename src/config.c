@@ -290,9 +290,9 @@ void loadServerConfigFromString(char *config) {
     int linenum = 0, totlines, i;
     int slaveof_linenum = 0;
     sds *lines;
-
+    //将字符串分割为多行
     lines = sdssplitlen(config,strlen(config),"\n",1,&totlines);
-
+    //一行行解析
     for (i = 0; i < totlines; i++) {
         sds *argv;
         int argc;
@@ -301,9 +301,11 @@ void loadServerConfigFromString(char *config) {
         lines[i] = sdstrim(lines[i]," \t\r\n");
 
         /* Skip comments and blank lines */
+        //跳过注释与空行
         if (lines[i][0] == '#' || lines[i][0] == '\0') continue;
 
         /* Split into arguments */
+        //解析配置参数，来判定当前是什么配置
         argv = sdssplitargs(lines[i],&argc);
         if (argv == NULL) {
             err = "Unbalanced quotes in configuration line";
@@ -530,16 +532,17 @@ void loadServerConfig(char *filename, char *options) {
     /* Load the file content */
     if (filename) {
         FILE *fp;
-
+        //对文件名称校验
         if (filename[0] == '-' && filename[1] == '\0') {
             fp = stdin;
         } else {
+            //打开配置件
             if ((fp = fopen(filename,"r")) == NULL) {
                 serverLog(LL_WARNING,
                     "Fatal error, can't open config file '%s'", filename);
                 exit(1);
             }
-        }
+        }//依次将文件中的每行配置写入 config
         while(fgets(buf,CONFIG_MAX_LINE+1,fp) != NULL)
             config = sdscat(config,buf);
         if (fp != stdin) fclose(fp);
@@ -549,7 +552,9 @@ void loadServerConfig(char *filename, char *options) {
         config = sdscat(config,"\n");
         config = sdscat(config,options);
     }
+    //开始从读取出来的字符串解析配置
     loadServerConfigFromString(config);
+    //释放
     sdsfree(config);
 }
 

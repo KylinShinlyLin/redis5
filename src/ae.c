@@ -521,7 +521,7 @@ int aeWait(int fd, int mask, long long milliseconds) {
 }
 
 /**
- * 事件驱动的主入口
+ * 事件驱动的循环主入口
  * @param eventLoop
  */
 void aeMain(aeEventLoop *eventLoop) {
