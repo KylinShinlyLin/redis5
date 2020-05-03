@@ -650,7 +650,9 @@ void addReplyBulkLen(client *c, robj *obj) {
 
 /* Add a Redis Object as a bulk reply */
 void addReplyBulk(client *c, robj *obj) {
+    //计算长度放在头部，使用$标记
     addReplyBulkLen(c, obj);
+    //回复的内容
     addReply(c, obj);
     addReply(c, shared.crlf);
 }

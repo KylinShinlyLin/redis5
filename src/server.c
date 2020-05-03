@@ -3113,7 +3113,9 @@ void call(client *c, int flags) {
     /* Call the command. */
     dirty = server.dirty;
     updateCachedTime(0);
+    //计时
     start = server.ustime;
+    //执行命令
     c->cmd->proc(c);
     duration = ustime()-start;
     dirty = server.dirty-dirty;
@@ -3136,6 +3138,7 @@ void call(client *c, int flags) {
 
     /* Log the command into the Slow log if needed, and populate the
      * per-command statistics that we show in INFO commandstats. */
+    //记录慢查询日志
     if (flags & CMD_CALL_SLOWLOG && !(c->cmd->flags & CMD_SKIP_SLOWLOG)) {
         char *latency_event = (c->cmd->flags & CMD_FAST) ?
                               "fast-command" : "command";
@@ -3355,6 +3358,7 @@ int processCommand(client *c) {
               c->cmd->proc != discardCommand)))
         {
             flagTransaction(c);
+            //回复的内容
             addReply(c, shared.oomerr);
             return C_OK;
         }
@@ -3455,16 +3459,22 @@ int processCommand(client *c) {
     }
 
     /* Exec the command */
+    //执行命令，前面已经把找到的命令放到了client 的cmd里面了
+    //如果当前开启事务，命令会被添加到commands队列中去
+    //这里也发现 exec multi watch discard的命令是不用进入队列的，因为需要直接执行
     if (c->flags & CLIENT_MULTI &&
         c->cmd->proc != execCommand && c->cmd->proc != discardCommand &&
         c->cmd->proc != multiCommand && c->cmd->proc != watchCommand)
     {
+        //将命令添加到待执行队列种,证明Redis会使用事务的方式执行指令
         queueMultiCommand(c);
         addReply(c,shared.queued);
     } else {
+        //不进入队列的直接执行
         call(c,CMD_CALL_FULL);
         c->woff = server.master_repl_offset;
         if (listLength(server.ready_keys))
+            // 客户端使用阻塞式获取数据和通知异步进程aof保存操作纪录的数据
             handleClientsBlockedOnKeys();
     }
     return C_OK;

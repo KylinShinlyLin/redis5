@@ -421,10 +421,11 @@ void lrangeCommand(client *c) {
     rangelen = (end-start)+1;
 
     /* Return the result in form of a multi-bulk reply */
+    //计算需要返回对象数量*开头
     addReplyArrayLen(c,rangelen);
     if (o->encoding == OBJ_ENCODING_QUICKLIST) {
         listTypeIterator *iter = listTypeInitIterator(o, start, LIST_TAIL);
-
+        //循环添加第一个是$
         while(rangelen--) {
             listTypeEntry entry;
             listTypeNext(iter, &entry);

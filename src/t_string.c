@@ -369,6 +369,7 @@ void incrDecrCommand(client *c, long long incr) {
     signalModifiedKey(c->db,c->argv[1]);
     notifyKeyspaceEvent(NOTIFY_STRING,"incrby",c->argv[1],c->db->id);
     server.dirty++;
+    //这个就是冒号:
     addReply(c,shared.colon);
     addReply(c,new);
     addReply(c,shared.crlf);

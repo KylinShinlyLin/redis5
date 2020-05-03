@@ -640,14 +640,14 @@ typedef struct redisDb {
 
 /* Client MULTI/EXEC state */
 typedef struct multiCmd {
-    robj **argv;
-    int argc;
-    struct redisCommand *cmd;
+    robj **argv; //参数对象
+    int argc;    //参数个数
+    struct redisCommand *cmd; //对应的指令
 } multiCmd;
 
 typedef struct multiState {
-    multiCmd *commands;     /* Array of MULTI commands */
-    int count;              /* Total number of MULTI commands */
+    multiCmd *commands;   //需要执行的命令  /* Array of MULTI commands */
+    int count;            //命令的数量  /* Total number of MULTI commands */
     int cmd_flags;          /* The accumulated command flags OR-ed together.
                                So if at least a command has a given flag, it
                                will be set in this field. */
